@@ -4,6 +4,7 @@ namespace MaxServ\YoastSeo\Block\Schema;
 
 use Magento\Framework\View\Element\Template;
 use Magento\Store\Model\ScopeInterface;
+use \Magento\Store\Model\StoreManagerInterface ;
 use Magento\Theme\Block\Html\Header\Logo;
 
 class Organization extends Template
@@ -16,6 +17,15 @@ class Organization extends Template
     /**
      * @return string
      */
+    public function __construct(
+        \Magento\Backend\Block\Template\Context $context,
+        StoreManagerInterface $storeManager,
+        array $data = []
+    ){
+        parent::__construct($context, $data);
+        $this->storeManager = $storeManager;        
+        
+    }
     public function getStoreLogo()
     {
         /** @var Logo $logoBlock */
@@ -34,7 +44,8 @@ class Organization extends Template
             '@type' => 'Organization',
             'url' => $this->getBaseUrl(),
             'name' => $this->getStoreInformation(
-                'general/store_information/company_name'
+                'general/store_information/name'
+            
             ),
             'logo' => $this->getStoreLogo()
         ];
